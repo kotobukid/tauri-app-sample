@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {type Ref, ref} from "vue";
 import {useApply, useDataUrlToBlob} from "../composables/render_svg_as_png"
 import {invoke} from "@tauri-apps/api/tauri";
 

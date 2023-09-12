@@ -43,7 +43,7 @@ const parse_css = (css: string): CssRuleTree => {
     return rules;
 };
 
-const useApply = (svg_element: SVGSVGElement, css_source_text: string, next: (dataUrl: string) => void) => {
+const useApply = (svg_element: Ref<SVGSVGElement>, css_source_text: string, next: (dataUrl: string) => void) => {
     const css_text: string = `
 a {color: red;
     span {color: green;}
@@ -68,7 +68,8 @@ rect.back {fill: pink;}
 
         const cssRules: CssRuleTree = parse_css(css);
 
-        const svg_source = svg_element.value.outerHTML;
+        // @ts-ignore
+        const svg_source = svg_element.value!.outerHTML;
         const parser = new DOMParser();
         const doc = parser.parseFromString(svg_source, 'image/svg+xml');
 
@@ -93,7 +94,7 @@ rect.back {fill: pink;}
     });
 }
 
-const render_as_bmp = (svg_element: SVGSVGElement, next: (dataUrl: string) => void): string => {
+const render_as_bmp = (svg_element: SVGSVGElement, next: (dataUrl: string) => void): void => {
     let svg_str = '<?xml version="1.0" encoding="utf-8"?>' + new XMLSerializer().serializeToString(svg_element);
     // svg_str = `<?xml version="1.0" encoding="utf-8"?><svg data-v-7846674e="" width="800" height="480" viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg"><circle cx="281" cy="266" r="50" fill="red"/><circle cx="67" cy="124" r="50" fill="red"/><circle cx="262" cy="74" r="50" fill="red"/><circle cx="533" cy="122" r="50" fill="red"/></svg>`
     svg_str = svg_str.replace(/ xmlns=""/g, '');
